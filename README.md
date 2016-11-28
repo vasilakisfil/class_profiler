@@ -22,7 +22,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+include ClassProfiler.for(instance_methods: [
+  :on_correct_scale, :on_correct_currency, :as_financial_value
+], modules: [Financial, Company])
+include ClassProfiler
+```
 
 ## Development
 
