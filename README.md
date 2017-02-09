@@ -21,6 +21,7 @@ Or install it yourself as:
     $ gem install class_profiler
 
 ## Usage
+Only for classes:
 
 ```ruby
 include ClassProfiler.for(instance_methods: [
