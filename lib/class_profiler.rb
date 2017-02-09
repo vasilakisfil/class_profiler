@@ -1,6 +1,5 @@
 require "class_profiler/version"
 
-$sum = 0
 $sum_hash = {}
 def bench!(label, &block)
   value = nil
@@ -13,6 +12,13 @@ def bench!(label, &block)
   $sum_hash[label][:sum] += time.round(5)
 
   return value
+end
+
+def bench_and_report!(label = 'Total Time', &block)
+  bench!(label, &block)
+
+  report!
+  reset!
 end
 
 def report!
@@ -40,14 +46,6 @@ end
 
 def reset!
   $sum_hash = {}
-  $sum = 0
-  $total = 0
-end
-
-$total = 0
-
-def reset_total!
-  $total = 0
 end
 
 module ClassProfiler
