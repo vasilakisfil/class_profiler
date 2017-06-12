@@ -17,15 +17,16 @@ end
 def bench_and_report!(label = 'Total Time', &block)
   bench!(label, &block)
 
-  report!
+  report!(total_label: label)
   reset!
 end
 
-def report!
+def report!(total_label: nil)
   puts "######### Performance Report #########"
   puts
+  total_time = $sum_hash[total_label][:sum].round(5)
   $sum_hash.sort_by{|label, values| values[:sum]}.to_h.each{|label, values|
-    printf "%-150s %s\n", "#{label} (total time):", values[:sum].round(5)
+    printf "%-150s %s (%s)\n", "#{label} (total time):", values[:sum].round(5), "#{((values[:sum]/ total_time) * 100).round(1)}%"
     printf "%-150s %s\n", "#{label} (number of calls):", values[:num]
     printf "%-150s %s\n", "#{label} (average time):", (values[:sum]/values[:num]).round(5)
     puts
@@ -99,7 +100,7 @@ module ClassProfiler
       base.send(:define_method, method_name) do |*args, &block|
         bench!(label(__method__)){
           if block
-            self.send("__#{method_name}", *args) { block.call }
+            self.send("__#{method_name}", *args, &block)
           else
             self.send("__#{method_name}", *args)
           end
