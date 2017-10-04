@@ -24,11 +24,34 @@ Or install it yourself as:
 Only for classes:
 
 ```ruby
+include ClassProfiler
+```
+
+Or if you want something more configurable:
+```ruby
 include ClassProfiler.for(instance_methods: [
   :on_correct_scale, :on_correct_currency, :as_financial_value
 ], modules: [Financial, Company])
-include ClassProfiler
 ```
+
+Then for benchmarking you only need to wrap the code under `start` block:
+
+```ruby
+ClassProfiler::Benchmark.instance.start 'MY LABEL' do
+  #code I want to benchmark
+end
+```
+Note that `ClassProfiler::Benchmark` class is a singleton.
+
+Also, it comes with a built-in rack middleware to report you the whole request-response cycle
+(but you still have to `include ClassProfiler` in the classes of your interest)
+
+```ruby
+config.middleware.use ClassProfiler::Rack
+```
+
+## How does it work?
+..add info here..
 
 ## Development
 

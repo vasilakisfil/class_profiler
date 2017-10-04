@@ -1,54 +1,9 @@
 require "class_profiler/version"
+require "class_profiler/benchmark"
+require "class_profiler/object_label"
+require "class_profiler/rack"
 
-$sum_hash = {}
-def bench!(label, &block)
-  value = nil
-  time = Benchmark.measure {
-    value = block.call
-  }.real
-
-  $sum_hash[label] = {num: 0, sum: 0} if $sum_hash[label].nil?
-  $sum_hash[label][:num] += 1
-  $sum_hash[label][:sum] += time.round(5)
-
-  return value
-end
-
-def bench_and_report!(label = 'Total Time', &block)
-  bench!(label, &block)
-
-  report!(total_label: label)
-  reset!
-end
-
-def report!(total_label: nil)
-  puts "######### Performance Report #########"
-  puts
-  total_time = $sum_hash[total_label][:sum].round(5)
-  $sum_hash.sort_by{|label, values| values[:sum]}.to_h.each{|label, values|
-    printf "%-150s %s (%s)\n", "#{label} (total time):", values[:sum].round(5), "#{((values[:sum]/ total_time) * 100).round(1)}%"
-    printf "%-150s %s\n", "#{label} (number of calls):", values[:num]
-    printf "%-150s %s\n", "#{label} (average time):", (values[:sum]/values[:num]).round(5)
-    puts
-  }
-  puts
-  puts "######### (most time consuming method is at the bottom) #########"
-end
-
-class Object
-  def label(method_name, notes = nil)
-    if notes
-    "#{self.class.name}##{method_name} (#{notes})"
-    else
-    "#{self.class.name}##{method_name}"
-    end
-  end
-end
-
-def reset!
-  $sum_hash = {}
-end
-
+#tons of metaprogramming and hacks, don't ask..
 module ClassProfiler
   CONSTANTIZE = ->(string) {
     string.split(':').select{|i|
@@ -98,7 +53,7 @@ module ClassProfiler
       base.send(:alias_method, "__#{method_name}", method_name)
 
       base.send(:define_method, method_name) do |*args, &block|
-        bench!(label(__method__)){
+        Benchmark.instance.start(label(__method__)){
           if block
             self.send("__#{method_name}", *args, &block)
           else
