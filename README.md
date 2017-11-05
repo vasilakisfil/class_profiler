@@ -1,8 +1,6 @@
 # ClassProfiler
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/class_profiler`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Simple performance analyzer for Ruby classes. Just include it in the bottom of
+your class and let it do its work.
 
 ## Installation
 
@@ -21,37 +19,48 @@ Or install it yourself as:
     $ gem install class_profiler
 
 ## Usage
-Only for classes:
+It can be used only for classes. You need to include it in the **bottom** of your class:
 
 ```ruby
-include ClassProfiler
+class Foobar
+  #includes/extend definitions
+
+  #methods
+  def hard_working_method
+  end
+  #more methods
+
+  include ClassProfiler #include it just before closing the class
+end
 ```
 
-Or if you want something more configurable:
+Or if you want something more configurable, to measure only specific methods and/or
+modules you can use this little API:
 ```ruby
 include ClassProfiler.for(instance_methods: [
   :on_correct_scale, :on_correct_currency, :as_financial_value
 ], modules: [Financial, Company])
 ```
 
-Then for benchmarking you only need to wrap the code under `start` block:
-
-```ruby
-ClassProfiler::Benchmark.instance.start 'MY LABEL' do
-  #code I want to benchmark
-end
-```
-Note that `ClassProfiler::Benchmark` class is a singleton.
-
-Also, it comes with a built-in rack middleware to report you the whole request-response cycle
+It comes with a built-in rack middleware to report you the whole request-response cycle
 (but you still have to `include ClassProfiler` in the classes of your interest)
 
 ```ruby
 config.middleware.use ClassProfiler::Rack
 ```
 
+If you want something more specific, then you only need to wrap the code of your
+interest under `start` block:
+
+```ruby
+ClassProfiler::Benchmark.instance.start 'MY LABEL' do
+  #code I want to benchmark
+end
+```
+
+Note that `ClassProfiler::Benchmark` class is a singleton.
+
 ## How does it work?
-..add info here..
 
 ## Development
 

@@ -52,13 +52,13 @@ class ClassProfiler::Benchmark
   end
 
   def active?
-    self.active_labels.any?
+    active_labels.any?
   end
 
   private
     attr_accessor :sum_hash, :options, :active_labels
     def append_active_label(label)
-      self.active_labels << label
+      active_labels << label
     end
 
     def remove_active_label(label)
