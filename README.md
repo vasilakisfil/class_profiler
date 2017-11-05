@@ -1,6 +1,6 @@
 # ClassProfiler
 Simple performance analyzer for Ruby classes. Just include it in the bottom of
-your class and let it do its work.
+your class and let it analyze your Ruby class performance.
 
 ## Installation
 
@@ -61,6 +61,7 @@ end
 Note that `ClassProfiler::Benchmark` class is a singleton.
 
 ## How does it work?
+You can find details on the motivation and implementation in [this blog post](https://blog.kollegorna.se/ruby-performance-profiling-an-unorthodox-approach-69c549e3293b).
 
 ## Development
 
@@ -70,7 +71,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/class_profiler. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/vasilakisfil/class_profiler. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
