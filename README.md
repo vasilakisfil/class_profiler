@@ -1,6 +1,7 @@
 # ClassProfiler
 Simple performance analyzer for Ruby classes. Just include it in the bottom of
 your class and let it analyze your Ruby class performance.
+Motivation and detailed explanation can be found in [this blog post](https://blog.kollegorna.se/ruby-performance-profiling-an-unorthodox-approach-69c549e3293b).
 
 ## Installation
 
