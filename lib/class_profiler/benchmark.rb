@@ -28,7 +28,7 @@ class ClassProfiler::Benchmark
   def start_and_report(label = 'Total Time', &block)
     start(label, &block)
 
-    report!(label)
+    report(label)
   end
 
   def report(total_label = nil)
